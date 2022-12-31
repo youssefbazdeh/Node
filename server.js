@@ -12,7 +12,8 @@ const port = process.env.PORT || 9092;
 import userRoutes from './routes/user.js';
 import weddingRoutes from './routes/wedding.js';
 import checklistRoutes from './routes/checklist.js';
-
+import guestRoutes from './routes/guest.js';
+import budgetRoutes from './routes/budget.js';
 
 const database = 'SIM3'
 mongoose.connect(`mongodb://localhost:27017/${database}`)
@@ -38,7 +39,8 @@ app.use("/gse", (req, ers, next) => {
 app.use('/user', userRoutes);
 app.use('/wedding', weddingRoutes);
 app.use('/checklist', checklistRoutes); // Utiliser les routes cr��s
-
+app.use('/guest', guestRoutes);
+app.use('/budget', budgetRoutes);
 
 app.use(notFoundError);
 app.use(errorHandler);

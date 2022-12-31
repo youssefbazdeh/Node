@@ -44,6 +44,10 @@ const weddingSchema = new Schema({
     type: String,
     required: true,
   },
+  user_id: {
+    type: Schema.Types.ObjectId, 
+    ref: "users"
+  }
 });
 
 export default model("Wedding", weddingSchema);

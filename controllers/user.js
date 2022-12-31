@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer'
 import  jwt  from 'jsonwebtoken';
 import { signAccessToken,signRefreshToken} from '../middlewares/auth.js';
+import user from '../models/user.js';
 
 
 var transporter = nodemailer.createTransport({
@@ -132,15 +133,14 @@ export async function addOnce(req, res) {
 
 }
 export function getUserById(req, res) {
-    User
-    .findOne({ "_id": req.params._id })
-    .then(docs => {
+    User.findOne({ _id: req.params.user_id })
+      .then((docs) => {
         res.status(200).json(docs);
-    })
-    .catch(err => {
+      })
+      .catch((err) => {
         res.status(500).json({ error: err });
-    });
-}
+      });
+  }
 
 export function getOnce(req, res) {
     User
@@ -172,9 +172,11 @@ export function putAll(req, res) {
  */
 export function putOnce(req, res) {
     User
-        .findOneAndUpdate({ "username": req.params.username },
+        .findOneAndUpdate({ "_id": req.params.idUser },
             {"username": req.body.username
             ,"fullname": req.body.fullname,
+            "email" : req.body.email,
+            "datedenaissance" : req.body.datedenaissance,
              "password": req.body.password })
         .then(doc => {
             res.status(200).json(doc);
@@ -186,11 +188,15 @@ export function putOnce(req, res) {
 /**
  * Mettre � jour un seul document
  */
-export function patchOnce(req, res) {
+export function updateUser(req, res) {
     User
-        .findOneAndUpdate({ "username": req.params.username }, { "fullname": req.body.fullname })
-        .then(doc => {
-            res.status(200).json(doc);
+        .findOneAndUpdate({ "_id": req.params.user_id }, 
+        { "username": req.body.username,
+            "fullname" : req.body.fullname,
+            "email" : req.body.email,
+            "datedenaissance" : req.body.datedenaissance})
+        .then(docs => {
+            res.status(200).json(docs);
         })
         .catch(err => {
             res.status(500).json({ error: err });

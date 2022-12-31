@@ -21,6 +21,16 @@ export function getWeddingById(req, res) {
     });
 }
 
+export function getWeddingByUserId(req, res) {
+  wedding.findOne({ user_id: req.params.user_id })
+    .then((docs) => {
+      res.status(200).json(docs);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+}
+
 export function updateWedding(req, res) {
   wedding.updateOne({ _id: req.params._id }, { $set: req.body })
     .then((doc) => {
@@ -29,6 +39,18 @@ export function updateWedding(req, res) {
     .catch((err) => {
       res.status(500).json({ error: err });
     });
+}
+
+export function getWeddingByIdUser(req, res) {
+  wedding
+  .find({"user_id": req.params.user_id })
+
+  .then(wedding=> {
+      res.status(200).json(wedding);
+  })
+  .catch(err => {
+      res.status(500).json({ error: err });
+  });
 }
 
 export function addWedding(req, res) {
@@ -42,6 +64,7 @@ export function addWedding(req, res) {
     date_ceremonie: req.body.date_ceremonie,
     heure_ceremonie: req.body.heure_ceremonie,
     budget: req.body.budget,
+    user_id: req.body.user_id,
     
 
     image: `${req.protocol}://${req.get("127.0.0.1:9092")}/img/car/${

@@ -1,7 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator';
-import { getUserById, login } from '../controllers/user.js';
-import { getAll, addOnce, getOnce, patchOnce, deleteOnce, putOnce, putAll } from '../controllers/user.js';
+import {  getOnce, login } from '../controllers/user.js';
+import { getAll, addOnce , getUserById , updateUser } from '../controllers/user.js';
 /**
  * Router est un objet de base sur le module express.
  * Cet objet a des méthodes similaires (.get, .post, .patch, .delete)
@@ -19,13 +19,13 @@ router
         body('username').isLength({ min: 4 }),
         addOnce);
 
-router
-  .route('/:username')
-    .get(getOnce)
-    .put(putOnce)
-    .put(putAll)
-  .patch(patchOnce)
-  .delete(deleteOnce);
+
+
+  router
+  .route('/:user_id')
+  .patch(updateUser)
+  .get(getUserById)
+ 
 
 
 router.route('/login')

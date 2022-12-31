@@ -42,8 +42,7 @@ export function addChecklist(req, res) {
     note: req.body.note,
     date: req.body.date, 
     status: req.body.status,
-    user_id: req.body.user_id,
-          
+    user_id: req.body.user_id,    
     image: `${req.protocol}://${req.get("127.0.0.1:9092")}/img/car/${
       req.file.filename
     }`,
@@ -58,13 +57,14 @@ export function addChecklist(req, res) {
 
 export function updataChecklist(req, res) {
   checklist
-      .findOneAndUpdate({ _id:req.params._id },
-          { "nom": req.params.nom,
-            "type": req.body.type,
-            "note": req.body.note,
-            "status": req.body.status ,
-            "image" : req.body.image,
-            "date" : req.body.date})
+      .findOneAndUpdate({ "_id": req.params.idtask },
+          {"nom": req.body.nom,
+          "type": req.body.type,
+           "note": req.body.note,
+            "date": req.body.date,
+            "status": req.body.status,
+            "image": req.body.image,
+          })
       .then(doc => {
           res.status(200).json(doc);
       })
@@ -81,4 +81,19 @@ export function getchecklistById(req, res) {
     .catch((err) => {
       res.status(500).json({ error: err });
     });
+}
+
+
+/**
+ * Supprimer un seul document
+ */
+export function deleteOnce(req, res) {
+  checklist
+      .findOneAndRemove({ "_id": req.params.idtask })
+      .then(doc => {
+          res.status(200).json(doc);
+      })
+      .catch(err => {
+          res.status(500).json({ error: err });
+      });
 }
