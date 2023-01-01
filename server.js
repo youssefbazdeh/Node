@@ -9,6 +9,7 @@ const app = express();
 
 const port = process.env.PORT || 9092;
 
+
 import userRoutes from './routes/user.js';
 import weddingRoutes from './routes/wedding.js';
 import checklistRoutes from './routes/checklist.js';
@@ -24,6 +25,8 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json()); // Pour analyser (parsing) les requetes application/json
 app.use(express.urlencoded({ extended: true }));
+app.use('/img', express.static('public/images/weds'));
+
 
 app.use((req, ers, next) => {
     console.log("middleware just ran");
@@ -41,6 +44,7 @@ app.use('/wedding', weddingRoutes);
 app.use('/checklist', checklistRoutes); // Utiliser les routes cr��s
 app.use('/guest', guestRoutes);
 app.use('/budget', budgetRoutes);
+
 
 app.use(notFoundError);
 app.use(errorHandler);

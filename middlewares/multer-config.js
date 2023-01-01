@@ -14,7 +14,9 @@ export default multer({
   storage: diskStorage({
     // Configurer l'emplacement de stockage
     destination: (req, file, callback) => {
-      const __dirname = dirname(fileURLToPath(import.meta.url)); // Récupérer le chemain du dossier courant
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = dirname(__filename);
+       // Récupérer le chemain du dossier courant
       callback(null, join(__dirname, "../public/images/weds")); // Indiquer l'emplacement de stockage
     },
     // Configurer le nom avec lequel le fichier va etre enregistrer
@@ -27,6 +29,8 @@ export default multer({
       callback(null, file.fieldname + Date.now() + "." + "jpg");
     },
   }),
+
   // Taille max des images 10Mo
   limits: 10 * 1024 * 1024,
+
 }).single("image"); // Le fichier est envoyé dans le body avec nom/clé 'image'

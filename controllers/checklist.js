@@ -25,6 +25,19 @@ export function getAllChecklistByIdUser(req, res) {
 }
 
 
+export function getAllChecklistByStatus(req, res) {
+  checklist
+  .find({"status": req.params.status ,"user_id":req.params.user_id})
+
+  .then(checklist=> {
+      res.status(200).json(checklist);
+  })
+  .catch(err => {
+      res.status(500).json({ error: err });
+  });
+}
+
+
 export function updateChecklist(req, res) {
   checklist.updateOne({ _id: req.params._id }, { $set: req.body })
     .then((doc) => {
@@ -43,12 +56,11 @@ export function addChecklist(req, res) {
     date: req.body.date, 
     status: req.body.status,
     user_id: req.body.user_id,    
-    image: `${req.protocol}://${req.get("127.0.0.1:9092")}/img/car/${
-      req.file.filename
-    }`,
+    image: `${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
   })
     .then((newChecklist) => {
       res.status(201).json(newChecklist);
+      console.log(newChecklist);
     })
     .catch((err) => {
       res.status(400).json(err);

@@ -8,6 +8,7 @@ import {
   getchecklistById,
   updataChecklist,
   deleteOnce,
+  getAllChecklistByStatus,
 } from "../controllers/checklist.js";
 import multer from "../middlewares/multer-config.js";
 const router = express.Router();
@@ -21,13 +22,15 @@ router
     .get(getchecklistById)
 router
   .route('/:idtask')
-  .put(multer,updataChecklist)
+  .put(updataChecklist)
   .delete(deleteOnce)
   
 router
   .route('/user/:user_id')
   .get(getAllChecklistByIdUser)
   .post(multer,addChecklist)
+
+router.route('/:user_id/:status').get(getAllChecklistByStatus)
   
 
  
